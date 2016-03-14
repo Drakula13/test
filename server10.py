@@ -1,24 +1,33 @@
 import asyncore, socket
-class http_client(asyncore.dispatcher):
+class async_http(asyncore.dispatcher):
 
-	def __init__(self):
+	def __init__(self, port):
+		asyncore.dispatcher.__init__(self)
 		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
-		self.bind(('0.0.0.0', 2222))
+		self.bind(('0.0.0.0', port))
 		self.listen(11)
 		
-	def handle_connect(self):
-		pass
-			
-	def handle_close(self):
-		self.close()
-			
+	def handle_accept(self):
+		client, addr = self.accept()
+		return async_http_handler(client)
+		
+class async_http_handler(asyncore.dispatcher):
+
+	def __init__(self, sock = None):
+		asyncore.dispatcher.__init__(self,sock)
+		self.got_request = False
+		self.request_data = b””
+		self.write_queue = collections.deque()
+		self.responding = False
+		
+	def readable(self):
+		return not self.got_request
+		
 	def handle_read(self):
-		self.recv(1024)
-	
-	def writable(self):
-		return (len(self.buffer) > 0)
-			
-	def handle_write(self):
-		sent = self.send(self.buffer)
-		self.buffer = self.buffer[sent:]		
+		chunk = self.recv(1024)
+		self.request_data += chunk
+		if self == "close": 
+			self.close()
+		
+a = async_http(2222)
 asyncore.loop()
