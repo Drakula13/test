@@ -16,7 +16,7 @@ class async_http_handler(asyncore.dispatcher):
 	def __init__(self, sock = None):
 		asyncore.dispatcher.__init__(self,sock)
 		self.got_request = False
-		self.request_data = b””
+		self.request_data = b""
 		self.write_queue = collections.deque()
 		self.responding = False
 		
