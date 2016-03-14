@@ -1,4 +1,4 @@
-import asyncore, socket
+import asyncore, socket, collections
 class async_http(asyncore.dispatcher):
 
 	def __init__(self, port):
@@ -26,7 +26,7 @@ class async_http_handler(asyncore.dispatcher):
 	def handle_read(self):
 		chunk = self.recv(1024)
 		self.request_data += chunk
-		if self == "close": 
+		if self == "close" | self == "Close": 
 			self.close()
 		
 a = async_http(2222)
