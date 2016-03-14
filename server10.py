@@ -2,7 +2,7 @@ import asyncore, socket
 class http_client(asyncore.dispatcher):
 
 	def __init__(self):
-		self = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+		self.create_socket(socket.AF_INET, socket.SOCK_STREAM)
 		self.bind(('0.0.0.0', 2222))
 		self.listen(11)
 		
@@ -10,6 +10,7 @@ class http_client(asyncore.dispatcher):
 		pass
 			
 	def handle_close(self):
+		if self
 		self.close()
 			
 	def handle_read(self):
