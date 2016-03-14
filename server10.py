@@ -10,7 +10,6 @@ class http_client(asyncore.dispatcher):
 		pass
 			
 	def handle_close(self):
-		if self
 		self.close()
 			
 	def handle_read(self):
