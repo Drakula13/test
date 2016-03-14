@@ -1,4 +1,4 @@
-import socket
+import asyncore, socket
 class http_client(asyncore.dispatcher):
 
 	def __init__(self):
